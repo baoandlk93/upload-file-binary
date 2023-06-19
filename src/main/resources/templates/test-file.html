@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"
+            integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="mb-3">
+    <label for="fileInput" class="form-label">Default file input example</label>
+    <input class="form-control" type="file" id="fileInput">
+</div>
+<button class="btn btn-success" id="uploadBtn">Upload</button>
+<div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="file : ${files}">
+            <th scope="row" th:text="${file.id}" class="idImage"></th>
+            <td th:text="${file.fileName}"></td>
+            <td th:text="${file.fileType}"></td>
+            <td>
+                <img height="128px" width="256px" id="uploadedImage" alt="Uploaded Image" th:src="@{'http://localhost:8080/files/' + ${file.id}}">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+<script>
+    // Dùng để gọi api upload file
+    $(document).ready(function () {
+        $("#uploadBtn").on("click", function () {
+            const fileInput = $("#fileInput")[0];
+            const file = fileInput.files[0];
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            $.ajax({
+                url: "http://localhost:8080/files/upload",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    alert("File uploaded successfully.");
+                    // Xử lý thành công
+                },
+                error: function (xhr, status, error) {
+                    alert("Failed to upload file.");
+                    // Xử lý lỗi
+                }
+            });
+        });
+    });
+
+    // Hiển thị ảnh đã upload
+    $(".uploadedImage").each(function () {
+        const imgElement = this;
+        const id = $(this).closest("tr").find(".idImage").text();
+        $.ajax({
+            url: "http://localhost:8080/files/" + id,
+            type: "GET",
+            xhrFields: {
+                responseType: 'blob'
+            },
+            success: function (response) {
+                const imageUrl = URL.createObjectURL(response);
+                $(imgElement).attr("src", imageUrl);
+            },
+            error: function (xhr, status, error) {
+                console.error("Failed to load image.");
+            }
+        });
+    });
+
+
+</script>
+
+</body>
+</html>
