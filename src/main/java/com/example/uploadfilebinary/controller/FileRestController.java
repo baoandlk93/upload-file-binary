@@ -17,7 +17,7 @@ public class FileRestController {
     private FileEntityRepository fileRepository;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadFile(@RequestBody MultipartFile file) {
         try {
             FileEntity fileEntity = new FileEntity();
             fileEntity.setFileName(file.getOriginalFilename());
