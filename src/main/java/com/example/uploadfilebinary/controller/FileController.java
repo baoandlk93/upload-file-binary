@@ -1,7 +1,8 @@
 package com.example.uploadfilebinary.controller;
 
 import com.example.uploadfilebinary.model.FileEntity;
-import com.example.uploadfilebinary.repository.FileEntityRepository;
+import com.example.uploadfilebinary.repository.IFileEntityRepository;
+import com.example.uploadfilebinary.service.IFileEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,14 +15,16 @@ import java.util.List;
 @RequestMapping("/home")
 public class FileController {
     @Autowired
-    private FileEntityRepository fileRepository;
+    private IFileEntityRepository fileRepository;
+    @Autowired
+    private IFileEntityService fileEntityService;
 
     @GetMapping("")
     public ModelAndView showHome() {
         ModelAndView modelAndView = new ModelAndView("/test-file");
         List<FileEntity> fileOptional = fileRepository.findAll();
         if (!fileOptional.isEmpty()) {
-            modelAndView.addObject("files",fileOptional);
+            modelAndView.addObject("files", fileOptional);
         }
         return modelAndView;
     }

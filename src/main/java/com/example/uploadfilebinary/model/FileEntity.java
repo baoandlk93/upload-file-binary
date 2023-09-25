@@ -21,7 +21,8 @@ public class FileEntity {
 
     private String fileType;
 
-    @Lob
-    private byte[] data;
+//    @Lob
+//    private byte[] data;
+    private String url;
 
 }

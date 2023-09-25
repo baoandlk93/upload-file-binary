@@ -33,7 +33,8 @@
             <td th:text="${file.fileName}"></td>
             <td th:text="${file.fileType}"></td>
             <td>
-                <img height="128px" width="256px" id="uploadedImage" alt="Uploaded Image" th:src="@{'http://localhost:8080/files/' + ${file.id}}">
+                <img height="128px" width="256px" id="uploadedImage" alt="Uploaded Image"
+                     th:src="@{'https://firebasestorage.googleapis.com/v0/b/upload-image-d8ea9.appspot.com/o/'+ ${file.fileName}+ '?alt=media' }">
             </td>
         </tr>
         </tbody>

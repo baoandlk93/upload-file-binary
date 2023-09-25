@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'war'
-    id 'org.springframework.boot' version '2.7.7'
+    id 'org.springframework.boot' version '2.7.13'
     id 'io.spring.dependency-management' version '1.1.0'
 }
 
@@ -27,6 +27,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+            // Firebase Admin SDK
+//    implementation 'com.google.firebase:firebase-admin:8.0.0'
+    implementation group: 'com.google.firebase', name: 'firebase-admin', version: '9.2.0'
+         // Firebase Storage
+    implementation group: 'com.google.cloud', name: 'google-cloud', version: '0.47.0-alpha'
+    implementation group: 'com.google.cloud', name: 'google-cloud-storage', version: '2.22.4'
+
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'
