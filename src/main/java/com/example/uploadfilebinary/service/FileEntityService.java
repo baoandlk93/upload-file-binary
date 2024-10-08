@@ -12,13 +12,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class FileEntityService implements IFileEntityService {
-    //    @Value("${app.firebase-bucket}")
-//    private String bucket;
-    IFileEntityRepository entityRepository;
-    FirebaseConfig firebaseConfig;
+   private final IFileEntityRepository entityRepository;
+   private final FirebaseConfig firebaseConfig;
 
     @Autowired
     public FileEntityService(IFileEntityRepository entityRepository, FirebaseConfig firebaseConfig) {
@@ -33,12 +32,11 @@ public class FileEntityService implements IFileEntityService {
             byte[] fileBytes = file.getBytes();
             Blob blob = bucket.create(file.getOriginalFilename(), fileBytes, file.getContentType());
             String url = "https://firebasestorage.googleapis.com/v0/b/" + bucket.getName() + "/o/" + file.getOriginalFilename();
-
             System.out.println(blob.asBlobInfo());
             FileEntity fileEntity = new FileEntity();
             fileEntity.setFileName(file.getOriginalFilename());
             fileEntity.setFileType(file.getContentType());
-            fileEntity.setUrl(url);
+            fileEntity.setUrl(blob.signUrl(1, TimeUnit.HOURS).toString());
             entityRepository.save(fileEntity);
             return true;
         } catch (IOException e) {

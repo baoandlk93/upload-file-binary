@@ -34,7 +34,7 @@
             <td th:text="${file.fileType}"></td>
             <td>
                 <img height="128px" width="256px" id="uploadedImage" alt="Uploaded Image"
-                     th:src="@{'https://firebasestorage.googleapis.com/v0/b/upload-image-d8ea9.appspot.com/o/'+ ${file.fileName}+ '?alt=media' }">
+                     th:src="${file.url}">
             </td>
         </tr>
         </tbody>
@@ -52,7 +52,7 @@
             formData.append("file", file);
 
             $.ajax({
-                url: "http://localhost:8080/files/upload",
+                url: "http://localhost:8081/files/upload",
                 type: "POST",
                 data: formData,
                 processData: false,
@@ -75,7 +75,7 @@
         const imgElement = this;
         const id = $(this).closest("tr").find(".idImage").text();
         $.ajax({
-            url: "http://localhost:8080/files/" + id,
+            url: "http://localhost:8081/files/" + id,
             type: "GET",
             xhrFields: {
                 responseType: 'blob'

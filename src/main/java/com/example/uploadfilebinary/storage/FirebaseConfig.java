@@ -27,14 +27,11 @@ public class FirebaseConfig {
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                     .setStorageBucket(bucket)
                     .build();
-
            return FirebaseApp.initializeApp(options);
         } catch (IOException e) {
             System.out.println(e.getMessage());
            return FirebaseApp.initializeApp();
         }
-
-
     }
 
     @Bean

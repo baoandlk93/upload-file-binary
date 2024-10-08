@@ -16,8 +16,6 @@ import java.util.List;
 public class FileController {
     @Autowired
     private IFileEntityRepository fileRepository;
-    @Autowired
-    private IFileEntityService fileEntityService;
 
     @GetMapping("")
     public ModelAndView showHome() {

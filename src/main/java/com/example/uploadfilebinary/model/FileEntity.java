@@ -20,9 +20,6 @@ public class FileEntity {
     private String fileName;
 
     private String fileType;
-
-//    @Lob
-//    private byte[] data;
     private String url;
 
 }
